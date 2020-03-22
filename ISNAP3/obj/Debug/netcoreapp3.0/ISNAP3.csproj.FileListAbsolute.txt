@@ -1,0 +1,11 @@
+C:\Users\1\RiderProjects\ISNAP3\ISNAP3\bin\Debug\netcoreapp3.0\ISNAP3.exe
+C:\Users\1\RiderProjects\ISNAP3\ISNAP3\bin\Debug\netcoreapp3.0\ISNAP3.deps.json
+C:\Users\1\RiderProjects\ISNAP3\ISNAP3\bin\Debug\netcoreapp3.0\ISNAP3.runtimeconfig.json
+C:\Users\1\RiderProjects\ISNAP3\ISNAP3\bin\Debug\netcoreapp3.0\ISNAP3.runtimeconfig.dev.json
+C:\Users\1\RiderProjects\ISNAP3\ISNAP3\bin\Debug\netcoreapp3.0\ISNAP3.dll
+C:\Users\1\RiderProjects\ISNAP3\ISNAP3\bin\Debug\netcoreapp3.0\ISNAP3.pdb
+C:\Users\1\RiderProjects\ISNAP3\ISNAP3\obj\Debug\netcoreapp3.0\ISNAP3.csprojAssemblyReference.cache
+C:\Users\1\RiderProjects\ISNAP3\ISNAP3\obj\Debug\netcoreapp3.0\ISNAP3.AssemblyInfoInputs.cache
+C:\Users\1\RiderProjects\ISNAP3\ISNAP3\obj\Debug\netcoreapp3.0\ISNAP3.AssemblyInfo.cs
+C:\Users\1\RiderProjects\ISNAP3\ISNAP3\obj\Debug\netcoreapp3.0\ISNAP3.dll
+C:\Users\1\RiderProjects\ISNAP3\ISNAP3\obj\Debug\netcoreapp3.0\ISNAP3.pdb
