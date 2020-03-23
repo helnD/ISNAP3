@@ -8,6 +8,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using Domain.Entities.DataStructureRecorder;
+using Domain.UseCase;
 
 namespace ISNAP3
 {
@@ -15,55 +17,71 @@ namespace ISNAP3
     {
         static void Main(string[] args)
         {
-            var a = 2;
-            var b = 3;
-            var c = 1.5;
-            
-            var min = 1;
-            var max = 8;
-            var n = 10;
-            var k = 0.1;
 
-            var h = (double)(max - min) / (n - 1);
+            var interactor = new Interactor();
 
-            var x = new List<double>();
-            var y = new List<double>();
+           var a = 2;
+           var b = 3;
+           var c = 1.5;
+           
+           var min = 1;
+           var max = 8;
+           var n = 10;
+           var k = 0.1;
+           
+           interactor.DataTransferProcess(min, max, n, a, b, c, "exponential", k);
 
-            for (var i = (double)min; i <= max; i += h)
-            {
-                x.Add(i);
-                y.Add(Function(i, a, b, c));
-            }
-            
-            var topNoise = new List<double>();
-            var lowNoise = new List<double>();
-
-            for (var i = (double)min; i <= max; i += h)
-            {
-                topNoise.Add(CreateNoise(k, y));
-                lowNoise.Add(-CreateNoise(k, y));
-            }
-
-            var yWithNoise = new List<double>();
-
-            for (var i = 0; i < y.Count; i++)
-            {
-                var noise = Math.Abs(topNoise[i]) < Math.Abs(lowNoise[i]) 
-                    ? topNoise[i] 
-                    : lowNoise[i];
-
-                var newElement = y[i] + noise;
-                yWithNoise.Add(newElement);
-            }
-
-            var abc = GetParams(x, y);
-            
-            Console.WriteLine($"{abc.Item1}, {abc.Item2}, {abc.Item3}");
-
-            foreach (var cx in x)
-            {
-                Console.WriteLine(abc.Item1 + abc.Item2 * Math.Pow(cx, abc.Item3));
-            }
+           var recorder = interactor.Recorder as StructureRecorder;
+           
+           for (int i = 0; i < recorder.Source.Count; i++)
+           {
+               Console.WriteLine(recorder.Source[i].X + " " + 
+                                 recorder.Source[i].Y + " " + 
+                                 recorder.SourceWithNoise[i] + 
+                                 recorder.ReceivedMessage[i]);
+           } 
+           Console.WriteLine($"a = {recorder.A}, b = {recorder.B}, c = {recorder.C}");
+           
+//            var h = (double)(max - min) / (n - 1);
+//
+//            var x = new List<double>();
+//            var y = new List<double>();
+//
+//            for (var i = (double)min; i <= max; i += h)
+//            {
+//                x.Add(i);
+//                y.Add(Function(i, a, b, c));
+//            }
+//            
+//            var topNoise = new List<double>();
+//            var lowNoise = new List<double>();
+//
+//            for (var i = (double)min; i <= max; i += h)
+//            {
+//                topNoise.Add(CreateNoise(k, y));
+//                lowNoise.Add(-CreateNoise(k, y));
+//            }
+//
+//            var yWithNoise = new List<double>();
+//
+//            for (var i = 0; i < y.Count; i++)
+//            {
+//                var noise = Math.Abs(topNoise[i]) < Math.Abs(lowNoise[i]) 
+//                    ? topNoise[i] 
+//                    : lowNoise[i];
+//
+//                var newElement = y[i] + noise;
+//                yWithNoise.Add(newElement);
+//            }
+//
+//            var abc = GetParams(x, y);
+//            
+//            Console.WriteLine($"{abc.Item1}, {abc.Item2}, {abc.Item3}");
+//
+//            foreach (var cx in x)
+//            {
+//                Console.WriteLine(abc.Item1 + abc.Item2 * Math.Pow(cx, abc.Item3));
+//            }
         }
 
         static double Function(double x, double a, double b, double c) =>

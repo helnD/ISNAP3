@@ -1,10 +1,10 @@
 ﻿{
   "version": "1.0.0",
   "restore": {
-    "projectUniqueName": "C:\\Users\\Владимир\\RiderProjects\\ISNAP3\\ISNAP3\\ISNAP3.csproj",
-    "projectName": "ISNAP3",
-    "projectPath": "C:\\Users\\Владимир\\RiderProjects\\ISNAP3\\ISNAP3\\ISNAP3.csproj",
-    "outputPath": "C:\\Users\\Владимир\\RiderProjects\\ISNAP3\\ISNAP3\\obj\\",
+    "projectUniqueName": "C:\\Users\\Владимир\\RiderProjects\\ISNAP3\\Domain\\Domain.csproj",
+    "projectName": "Domain",
+    "projectPath": "C:\\Users\\Владимир\\RiderProjects\\ISNAP3\\Domain\\Domain.csproj",
+    "outputPath": "C:\\Users\\Владимир\\RiderProjects\\ISNAP3\\Domain\\obj\\",
     "projectStyle": "PackageReference",
     "fallbackFolders": [
       "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -18,11 +18,7 @@
     },
     "frameworks": {
       "netcoreapp3.0": {
-        "projectReferences": {
-          "C:\\Users\\Владимир\\RiderProjects\\ISNAP3\\Domain\\Domain.csproj": {
-            "projectPath": "C:\\Users\\Владимир\\RiderProjects\\ISNAP3\\Domain\\Domain.csproj"
-          }
-        }
+        "projectReferences": {}
       }
     },
     "warningProperties": {
