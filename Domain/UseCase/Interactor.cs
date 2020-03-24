@@ -6,15 +6,24 @@ namespace Domain.UseCase
     public class Interactor
     {
         
-        public IRecorder Recorder { get; private set; }
+        private RangeBuilder _rangeBuilder;
+        private Sender _sender;
+        private Receiver _receiver;
+
+        public Interactor()
+        {
+            _rangeBuilder = new RangeBuilder(Recorder);
+            
+            _sender = new Sender(Recorder);
+            _receiver = new Receiver(Recorder);
+        }
+        
+        public IRecorder Recorder { get; private set; } = new StructureRecorder();
         
         public void DataTransferProcess(double min, double max, int count, 
             double a, double b, double c, string function, double significanceLevel)
         {
-            Recorder = new StructureRecorder();
-            
-            var rangeBuilder = new RangeBuilder(Recorder);
-            var range = rangeBuilder.Min(min)
+            var range = _rangeBuilder.Min(min)
                 .Max(max)
                 .A(a)
                 .B(b)
@@ -23,12 +32,9 @@ namespace Domain.UseCase
                 .Function(function)
                 .Build();
             
-            var sender = new Sender(new NoiseSource(significanceLevel), Recorder);
-            var receiver = new Receiver(Recorder);
-
-            sender.MessageIsSent += receiver.Receive;
+            _sender.MessageIsSent += _receiver.Receive;
             
-            sender.SendMessage(range, function);
+            _sender.SendMessage(range, function, significanceLevel);
 
         }
     }

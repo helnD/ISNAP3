@@ -63,21 +63,17 @@ namespace Domain.Entities
             return this;
         }
 
-        internal IReadOnlyCollection<dynamic> Build()
+        internal IReadOnlyCollection<Point> Build()
         {
             var function = new FunctionDeterminant().GetFunction(_function);
             
             var h = (_max - _min) / (_count - 1);
 
-            var spots = new List<dynamic>();
+            var spots = new List<Point>();
 
             for (var x = _min; x <= _max; x += h)
             {
-                spots.Add(new
-                {
-                    X = x,
-                    Y = function(x, _a, _b, _c)
-                });
+                spots.Add(new Point(x, function(x, _a, _b, _c)));
             }
             
             _recorder.RecordSource(spots);

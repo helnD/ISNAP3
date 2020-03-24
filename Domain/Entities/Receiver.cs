@@ -24,10 +24,10 @@ namespace Domain.Entities
             var lambdaFunction = new FunctionDeterminant().GetFunction(function);
             
             var receivedMessage = spots.Select(spot => lambdaFunction(spot.X, a, b, c))
-                .Cast<double>()
                 .ToList();
             
             _recorder.RecordReceivedMessage(receivedMessage);
+            _recorder.RecordParameters(a, b, c);
         }
     }
 }

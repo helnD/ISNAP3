@@ -1,54 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Dynamic;
 using System.Linq;
 
 namespace Domain.Entities
 {
     public class Sender
     {
-        private readonly NoiseSource _noiseSource;
         private readonly IRecorder _recorder;
 
-        public Sender(NoiseSource noiseSource, IRecorder recorder)
+        public Sender(IRecorder recorder)
         {
-            _noiseSource = noiseSource;
             _recorder = recorder;
         }
         
         public event EventHandler<SendMessageArgs> MessageIsSent; 
 
-        public void SendMessage(IReadOnlyCollection<dynamic> spots, string function)
+        public void SendMessage(IReadOnlyCollection<Point> spots, string function, double significanceLevel)
         {
-            var spotsWithNoise = new List<dynamic>();
-
-            foreach (var spot in spotsWithNoise)
-            {
-                spotsWithNoise.Add(new
-                {
-                    X = spot.X,
-                    Y = _noiseSource.CreateNoise(spot.Y)
-                });
-            }
-            
-            var onlyNoise = spotsWithNoise.Select(spot => spot.X)
-                .Cast<double>()
+            var noiseSource = new NoiseSource(significanceLevel);
+            var onlyNoise = noiseSource.CreateNoise(spots.Select(it => it.X).ToList())
                 .ToList();
+            var spotsWithNoise = new List<Point>();
+            var spotsList = spots.ToList();
 
-            _recorder.RecordNoise(onlyNoise);
+            for (var index = 0; index < onlyNoise.Count; index++)
+            {
+                spotsWithNoise.Add(new Point(spotsList[index].X, onlyNoise[index] + spotsList[index].Y));
+            }
 
-            MessageIsSent?.Invoke(this, new SendMessageArgs(spots, function));
+            _recorder.RecordNoise(spotsWithNoise.Select(it => it.Y).ToList());
+
+            MessageIsSent?.Invoke(this, new SendMessageArgs(spotsWithNoise, function));
         }
 
         public class SendMessageArgs : EventArgs
         {
-            public SendMessageArgs(IReadOnlyCollection<dynamic> spots, string function)
+            public SendMessageArgs(IReadOnlyCollection<Point> spots, string function)
             {
                 Spots = spots;
                 Function = function;
             }
 
-            public IReadOnlyCollection<dynamic> Spots { get; }
+            public IReadOnlyCollection<Point> Spots { get; }
             public string Function { get; }
         }
     }

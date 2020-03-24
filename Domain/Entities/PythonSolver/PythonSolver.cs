@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
@@ -13,8 +14,8 @@ namespace Domain.Entities
     {
         private readonly ProcessStartInfo _processStartInfo = new ProcessStartInfo
         {
-            FileName = "C:\\Users\\Владимир\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe",
-            Arguments = "C:\\Users\\Владимир\\RiderProjects\\ISNAP3\\Domain\\Entities\\PythonSolver\\estimate_function.py"
+            FileName = "C:\\Users\\1\\AppData\\Local\\Programs\\Python\\Python38-32\\python.exe",
+            Arguments = "C:\\Users\\1\\RiderProjects\\ISNAP3\\Domain\\Entities\\PythonSolver\\estimate_function.py"
         };
         
         private Socket _socket;
@@ -25,11 +26,12 @@ namespace Domain.Entities
             SocketSetupAsync();
         }
         
-        public (double, double, double) Solve(IReadOnlyCollection<dynamic> spots, string function)
+        public (double, double, double) Solve(IReadOnlyCollection<Point> spots, string function)
         {
             var argumentsBuilder = new StringBuilder(function + '|');
             argumentsBuilder.AppendJoin(' ', spots.Select(it => it.X));
-            argumentsBuilder.Insert(argumentsBuilder.Length - 1, '|');
+            argumentsBuilder.Remove(argumentsBuilder.Length - 1, 1);
+            argumentsBuilder.Append('|');
             argumentsBuilder.AppendJoin(' ', spots.Select(it => it.Y));
             argumentsBuilder.Remove(argumentsBuilder.Length - 1, 1);
 
@@ -48,7 +50,7 @@ namespace Domain.Entities
             var strParameters = encoding.GetString(buffer)
                 .Replace('.', ',')
                 .Split(' ');
-                
+
             var a = double.Parse(strParameters[0]);
             var b = double.Parse(strParameters[1]);
             var c = double.Parse(strParameters[2]);
@@ -59,9 +61,22 @@ namespace Domain.Entities
         private void SocketSetupAsync()
         {
             var endPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 5264);
-            var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-            socket.ConnectAsync(endPoint);
+            _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            var task = new Task(() =>
+            {
+                while (!_socket.Connected)
+                {
+                    try
+                    {
+                        _socket.Connect(endPoint);
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
+            });
+            task.Start();
         }
     }
 }

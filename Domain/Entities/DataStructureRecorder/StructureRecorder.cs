@@ -6,7 +6,7 @@ namespace Domain.Entities.DataStructureRecorder
 {
     public class StructureRecorder : IRecorder
     {
-        public ImmutableList<dynamic> Source { get; private set; }
+        public ImmutableList<Point> Source { get; private set; }
         public ImmutableList<double> SourceWithNoise { get; private set; }
         public ImmutableList<double> ReceivedMessage { get; private set; }
         
@@ -14,7 +14,7 @@ namespace Domain.Entities.DataStructureRecorder
         public double B { get; private set; }
         public double C { get; private set; }
 
-        public void RecordSource(IReadOnlyCollection<dynamic> source)
+        public void RecordSource(IReadOnlyCollection<Point> source)
         {
             Source = source.ToImmutableList();
         }

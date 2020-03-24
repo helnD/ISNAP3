@@ -10,17 +10,16 @@ namespace Domain.Entities
 
         public NoiseSource(double significanceLevel)
         {
-            this._significanceLevel = significanceLevel;
+            _significanceLevel = significanceLevel;
         }
 
         public IReadOnlyCollection<double> CreateNoise(IReadOnlyCollection<double> sourceData)
         {
             var average = sourceData.Average();
             var random = new Random();
-            var source = sourceData.ToList();
 
             var topNoise = sourceData.Select(it => random.NextDouble() * _significanceLevel * average).ToList();
-            var lowNoise = sourceData.Select(it => random.NextDouble() * _significanceLevel * average).ToList();
+            var lowNoise = sourceData.Select(it => -random.NextDouble() * _significanceLevel * average).ToList();
 
             var result = topNoise.Select((value, index) =>
             {
@@ -28,7 +27,7 @@ namespace Domain.Entities
                     ? value
                     : lowNoise[index];
 
-                var newElement = source[index] + noise;
+                var newElement = noise;
                 return newElement;
             });
             

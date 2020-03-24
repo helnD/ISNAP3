@@ -3,6 +3,7 @@ import scipy.optimize as opt
 import sys
 import socket
 import math
+import time 
 
 def exponential(x, a, b, c):
     return a + b * x ** c
@@ -27,14 +28,16 @@ if __name__ == '__main__':
     sock = socket.socket()
     sock.bind(('localhost', 5264))
     sock.listen(5)
-    conn, addr = sock.connect()
     
+    conn, addr = sock.accept()
     
     while True:
         
-        message = conn.recv().decode('utf-8')
+        try:
         
-        if message == close:
+            message = conn.recv(1024).decode('utf-8').replace(',', '.')
+            
+        except ConnectionResetError:
             break
         
         params = message.split('|')
@@ -43,7 +46,7 @@ if __name__ == '__main__':
         x = np.array(list(map(float, params[1].split(' '))))
         y = np.array(list(map(float, params[2].split(' '))))
 
-        true_params, _ = opt.curve_fit(function, x, y)
+        true_params, _ = opt.curve_fit(get_function(functionType), x, y)
     
         str_parameters = ""
     
