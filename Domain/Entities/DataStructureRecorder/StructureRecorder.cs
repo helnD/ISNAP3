@@ -13,6 +13,10 @@ namespace Domain.Entities.DataStructureRecorder
         public double A { get; private set; }
         public double B { get; private set; }
         public double C { get; private set; }
+        public double E { get; private set; }
+        public double Ea { get; private set; }
+        public double Eb { get; private set; }
+        public double Ec { get; private set; }
 
         public void RecordSource(IReadOnlyCollection<Point> source)
         {
@@ -29,6 +33,14 @@ namespace Domain.Entities.DataStructureRecorder
             A = a;
             B = b;
             C = c;
+        }
+
+        public void RecordErrors(double e, double ea, double eb, double ec)
+        {
+            E = e;
+            Ea = ea;
+            Eb = eb;
+            Ec = ec;
         }
 
         public void RecordReceivedMessage(IReadOnlyCollection<double> receivedMessage)

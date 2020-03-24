@@ -8,5 +8,6 @@ namespace Domain.Entities
         void RecordNoise(IReadOnlyCollection<double> sourceWithNoise);
         void RecordParameters(double a, double b, double c);
         void RecordReceivedMessage(IReadOnlyCollection<double> receivedMessage);
+        void RecordErrors(double E, double ea, double eb, double ec);
     }
 }

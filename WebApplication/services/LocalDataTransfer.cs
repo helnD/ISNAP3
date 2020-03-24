@@ -15,7 +15,7 @@ namespace WebApplication.services
             var rec = _interactor.Recorder as StructureRecorder;
             
             var result = new DataTransferResult(rec.Source, rec.SourceWithNoise, rec.ReceivedMessage,
-                rec.A, rec.B, rec.C);
+                rec.A, rec.B, rec.C, rec.E, rec.Ea, rec.Eb, rec.Ec);
 
             return result;
         }

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Domain.Entities.DataStructureRecorder;
 
 namespace Domain.Entities
@@ -25,7 +27,7 @@ namespace Domain.Entities
             
             var receivedMessage = spots.Select(spot => lambdaFunction(spot.X, a, b, c))
                 .ToList();
-            
+
             _recorder.RecordReceivedMessage(receivedMessage);
             _recorder.RecordParameters(a, b, c);
         }
